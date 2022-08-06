@@ -4,23 +4,22 @@ const bcrypt = require('bcryptjs')
 
 router.post('/register', async (req,res)=> {
 
-
-   // const confirm = await User.find({Username : req.body.username ,email : req.body.email})
-    //confirm && res.status(400).json('this user or email exist');
     try {
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(req.body.password, salt);
 
 const savedPost = await new User({
-        username: req.body.username,
+        userName: req.body.userName,
         email: req.body.email,
         password : hashedPass       
 
 })
 
-     const resultPost = await savedPost.save()
-
-     res.status(200).json(resultPost);
+     const resultPost = await savedPost.save((data, error) =>{
+     
+     if(data)  res.status(200).json(data);
+     else res.status(500).json(error);      
+     })
   } catch (error) {
      res.status(500).json(error); 
   }

@@ -13,13 +13,18 @@ const postRouter = require('./routers/post')
 //connect line
 
 
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(process.env.MONGODB_URL, { 
+        useNewUrlParser: true ,
+        // useCreateIndex:true,
+        useUnifiedTopology: true
+})
 .then(()=>{
         console.log('mongodb connected succesfully')
 }).catch((err)=>{ console.log(err)})
 
 //middlwwares
 app.use(express.json())
+app.use(express.urlencoded({extended : true}))
 app.use('/api/auth', authRouter)
 app.use('/api/post', postRouter)
 

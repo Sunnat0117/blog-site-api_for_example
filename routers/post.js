@@ -7,6 +7,7 @@ try {
     const savePost = await new Post(req.body);
     const savedPost = await savePost.save()
     res.status(200).json(savedPost);
+    console.log('post createdd')
 
 } catch (error) {
     res.status(500).json(error);
